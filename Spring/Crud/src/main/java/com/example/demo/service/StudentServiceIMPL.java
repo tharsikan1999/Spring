@@ -5,6 +5,7 @@ import com.example.demo.entity.Student;
 import com.example.demo.repo.StudentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +15,16 @@ public class StudentServiceIMPL implements StudentService{
     @Autowired
     private StudentRepo studentRepo;
 
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
 
     @Override
     public Student addStudent(StudentDto studentDto) {
         Student student = new Student();
         student.setName(studentDto.getName());
         student.setEmail(studentDto.getEmail());
-        student.setPassword(encoder.encode(studentDto.getPassword()));
+        student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
         student.setAge(studentDto.getAge());
         studentRepo.save(student);
         return student;
